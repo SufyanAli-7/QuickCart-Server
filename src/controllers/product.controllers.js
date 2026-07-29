@@ -108,7 +108,44 @@ export const getSingleProduct = async(req, res) => {
     }
 }
 
-
+export const updateProduct = async (req, res) => {
+    try {
+                
+        const { id, role } = req;
+        if (role !== 'admin' || !id) {
+            return res.status(403).json({ message: 'Access denied. SuperAdmins only.', success: false });
+        }
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found', success: false });
+        }
+        const { name, description, price, stock, category, status } = req.body;
+        if (name) product.name = name;
+        if (description) product.description = description;
+        if (price) product.price = price;
+        if (stock) product.stock = stock;
+        if (category) product.category = category;
+        if (status) product.status = status;
+        if (req.file) {
+            const uploadResult = await uploadOnCloudinary(req.file.path);
+            if (!uploadResult) {
+                return res.status(400).json({ success: false, message: "Failed to upload new image" });
+            }
+            if (product.imagePublicId) {
+                await deleteOnCloudinary(product.imagePublicId);
+            }
+            product.imageURL = uploadResult.secure_url;
+            product.imagePublicId = uploadResult.public_id;
+        }
+        await product.save();
+        return res.status(200).json({ success: true, message: 'Product updated successfully', product });
+    }
+    catch (error) {
+        console.error('Error during product update:', error.message);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    } 
+}
 
 export const deleteProduct = async (req, res) => {
     try {
