@@ -5,9 +5,10 @@ import { upload } from '../middlewares/multer.middleware.js';
 const productRouter = Router();
 
 
-productRouter.post('/create', authMiddleware, upload.single("image"), createProduct);
-
 productRouter.get('/all', authMiddleware, allProducts);
+
+
+productRouter.post('/create', authMiddleware, upload.single("image"), createProduct);
 
 productRouter.get('/get-single/:id', authMiddleware, getSingleProduct);
 
@@ -15,7 +16,6 @@ productRouter.get('/get-single/:id', authMiddleware, getSingleProduct);
 
 productRouter.delete('/delete/:id', authMiddleware, deleteProduct);
 
-// productRouter.get('/public-all', publicAllProducts);
 
 
 export default productRouter;

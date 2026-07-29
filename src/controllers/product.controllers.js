@@ -79,27 +79,32 @@ export const allProducts = async (req, res) => {
 
 export const getSingleProduct = async(req, res) => {
     try {
+        const { id, role } = req;
 
-        const {id, role} = req;
-
-        if (role !== 'admin' || !id) {
-            return res.status(403).json({message: "You are not authorized to fetch the product"});
+        if (!id || !role) {
+            return res.status(403).json({ success: false, message: "You are not authorized to fetch the product" });
         }
 
         const productId = req.params.id;
-        
-        const product = await Product.findById(productId);
 
-        if(!product){
-            return res.status(404).json({message: "Product not found"});
+        const query = { _id: productId };
+
+        if (role !== 'admin') {
+            query.status = 'active';
         }
 
-        return res.status(200).json({success: true, message: "Product fetched successfully", product});
+        const product = await Product.findOne(query);
+
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        return res.status(200).json({ success: true, message: "Product fetched successfully", product });
 
     }
     catch (error) {
         console.error('Error during product fetching:', error.message);
-        res.status(500).json({success: false, message: 'Internal server error'});
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
 
