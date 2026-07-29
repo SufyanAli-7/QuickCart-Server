@@ -49,3 +49,29 @@ export const createProduct = async (req, res) => {
         res.status(500).json({success: false, message: 'Internal server error'});
     }
 }
+
+
+export const allProducts = async (req, res) => {
+    try {
+
+        const {id, role } = req;
+
+        if(!id || !role){
+            return res.status(403).json({message: "You are not authorized to fetch products"});
+        }
+        
+        let products = [];
+
+        if(role === "admin"){
+            products = await Product.find();
+        }else{
+            products = await Product.find({status: "active"});
+        }
+        
+        return res.status(200).json({success: true, message: "Products fetched successfully", products});
+    }
+    catch (error) {
+        console.error('Error during product fetching:', error.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+}
