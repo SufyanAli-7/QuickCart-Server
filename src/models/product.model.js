@@ -38,6 +38,11 @@ const ProductSchema = new Schema({
         type: String,
         enum: ["Electronics","Fashion","Home & Kitchen","Beauty","Sports","Books", "Toys","Groceries", "Health","Automotive","Accessories","Furniture","Stationery","Other"],
         required: true,
+    },
+    status : {
+        type: String,
+        enum: ["active", "inactive"],
+        default: "active"
     }   
 }, {timestamps: true});
 
