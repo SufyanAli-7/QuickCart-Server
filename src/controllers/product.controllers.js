@@ -1,5 +1,5 @@
 import Product from "../models/product.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { deleteOnCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 export const createProduct = async (req, res) => {
@@ -99,6 +99,37 @@ export const getSingleProduct = async(req, res) => {
     }
     catch (error) {
         console.error('Error during product fetching:', error.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+}
+
+
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id , role } = req;
+        if (role !== 'admin' || !id) {
+            return res.status(403).json({ message: 'Access denied. SuperAdmins only.', success: false });
+        }
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+ 
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found', success: false });
+        }
+
+        if (product.imagePublicId) {
+            const result = await deleteOnCloudinary(product.imagePublicId);            
+            if (!result) {
+                return res.status(500).json({message: "Failed to delete image"});
+            }
+        }
+
+        await Product.findByIdAndDelete( productId );
+        res.status(200).json({ success: true, message: 'Product deleted successfully' });
+    }
+    catch (error) {
+        console.error('Error during product deletion:', error.message);
         res.status(500).json({success: false, message: 'Internal server error'});
     }
 }
