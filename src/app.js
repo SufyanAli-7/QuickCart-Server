@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
 
 
 const app = express();
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 export default app;
