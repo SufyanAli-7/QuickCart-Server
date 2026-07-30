@@ -157,3 +157,32 @@ export const getAllOrders = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
+
+
+export const getOrderById = async (req, res) => {
+    try {
+        const { id, role } = req;
+
+        if (role !== "admin" || !id) {
+            return res.status(403).json({ success: false, message: "Forbidden: Admin access required" });
+        }
+
+        const orderId = req.params.id;
+
+        const order = await Order.findById(orderId).populate("userId", "userName email role");
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Order fetched successfully",
+            order
+        });
+
+    } catch (error) {
+        console.error("Error fetching order by ID:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
