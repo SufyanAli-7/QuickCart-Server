@@ -111,3 +111,23 @@ export const createOrder = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
+
+
+export const getMyOrders = async (req, res) => {
+    try {
+        const userId = req.id;
+
+        const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            message: "Orders fetched successfully",
+            count: orders.length,
+            orders
+        });
+
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
