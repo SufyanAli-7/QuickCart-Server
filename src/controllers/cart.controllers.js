@@ -203,3 +203,29 @@ export const removeItemFromCart = async (req, res) => {
 }
 
 
+export const clearCart = async (req, res) => {
+    try {
+        const { id } = req;
+
+        const cart = await Cart.findOne({ userId: id });
+
+        if (!cart) {
+            return res.status(404).json({ success: false, message: "Cart not found" });
+        }
+
+        cart.items = [];
+        await cart.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Cart cleared successfully",
+            cart
+        });
+
+    } catch (error) {
+        console.error("Error clearing cart:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
+
+
