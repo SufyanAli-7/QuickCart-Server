@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createOrder, getAllOrders, getMyOrders, getOrderById } from "../controllers/order.controllers.js";
+import { createOrder, getAllOrders, getMyOrders, getOrderById, updateOrderStatus } from "../controllers/order.controllers.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 
 const orderRouter = Router();
@@ -13,7 +13,9 @@ orderRouter.get('/my-orders', authMiddleware, getMyOrders);
 
 orderRouter.get('/all-orders', authMiddleware, getAllOrders);
 
-orderRouter.get('/get-single/:id',authMiddleware, getOrderById)
+orderRouter.get('/get-single/:id',authMiddleware, getOrderById);
+
+orderRouter.patch('/update-status/:id', authMiddleware, updateOrderStatus);
 
 
 export default orderRouter;
