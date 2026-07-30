@@ -166,3 +166,40 @@ export const updateCartItem = async (req, res) => {
 }
 
 
+export const removeItemFromCart = async (req, res) => {
+    try {
+        const { id } = req;
+        const { productId } = req.params;
+
+        if (!productId) {
+            return res.status(400).json({ success: false, message: "Please provide a productId" });
+        }
+
+        const cart = await Cart.findOne({ userId: id });
+
+        if (!cart) {
+            return res.status(404).json({ success: false, message: "Cart not found" });
+        }
+
+        const initialLength = cart.items.length;
+        cart.items = cart.items.filter(item => item.productId.toString() !== productId);
+
+        if (cart.items.length === initialLength) {
+            return res.status(404).json({ success: false, message: "Item not found in cart" });
+        }
+
+        await cart.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Item removed from cart successfully",
+            cart
+        });
+
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
+
+
