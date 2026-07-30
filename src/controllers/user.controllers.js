@@ -61,3 +61,32 @@ export const getUserById = async (req, res) => {
         res.status(500).json({success: false, message: 'Internal server error'});
     }
 }
+
+
+export const updateUserRole = async (req, res) => {
+    try {
+        const { id, role } = req;
+
+        if (role !== 'admin' || !id) {
+            return res.status(403).json({success: false, message: 'Forbidden'});
+        }
+
+        const userId = req.params.id;
+        const { newRole } = req.body;
+
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({success: false, message: 'User not found'});
+        }
+
+        user.role = newRole;
+        await user.save();
+
+        return res.status(200).json({success: true, user});
+    }
+    catch (error) {
+        console.error('Error during logout:', error.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+}
