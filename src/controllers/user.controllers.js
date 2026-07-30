@@ -17,3 +17,22 @@ export const getUserData = async (req, res) => {
         res.status(500).json({success: false, message: 'Internal server error'});
     }
 }
+
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const { id, role } = req;
+
+        if (role !== 'admin' || !id) {
+            return res.status(403).json({success: false, message: 'Forbidden'});
+        }
+
+        const users = await User.find({}).select("-password");
+
+        return res.status(200).json({success: true, users});
+    }
+    catch (error) {
+        console.error('Error during logout:', error.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+}
