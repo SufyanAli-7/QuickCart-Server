@@ -66,3 +66,47 @@ export const addItemsToCart = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
+
+
+export const getItemsFromCart = async (req, res) => {
+    try {
+        const { id } = req;
+
+        const cart = await Cart.findOne({ userId: id }).populate("items.productId");
+
+        if (!cart) {
+            return res.status(200).json({
+                success: true,
+                message: "Cart fetched successfully",
+                cart: { userId: id, items: [] },
+                totalItems: 0,
+                subtotal: 0
+            });
+        }
+
+        let totalItems = 0;
+        let subtotal = 0;
+
+        // Calculate totalItems and subtotal with null check (in case product was deleted by admin)
+        cart.items.forEach(item => {
+            if (item.productId && typeof item.productId.price === "number") {
+                totalItems += item.quantity;
+                subtotal += item.productId.price * item.quantity;
+            }
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Cart fetched successfully",
+            cart,
+            totalItems,
+            subtotal
+        });
+
+    } catch (error) {
+        console.error("Error fetching cart items:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
+
+
