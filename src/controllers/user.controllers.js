@@ -90,3 +90,30 @@ export const updateUserRole = async (req, res) => {
         res.status(500).json({success: false, message: 'Internal server error'});
     }
 }
+
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id, role } = req;
+
+        if (role !== 'admin' || !id) {
+            return res.status(403).json({success: false, message: 'Forbidden'});
+        }
+
+        const userId = req.params.id;
+
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({success: false, message: 'User not found'});
+        }
+
+        await user.deleteOne();
+
+        return res.status(200).json({success: true, message: 'User deleted successfully'});
+    }
+    catch (error) {
+        console.error('Error during logout:', error.message);
+        res.status(500).json({success: false, message: 'Internal server error'});
+    }
+}
