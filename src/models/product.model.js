@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
-    uid : {
+    userId : {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref:"User",
         required: true
     }, 
     name : {

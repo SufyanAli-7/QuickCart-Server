@@ -78,7 +78,7 @@ const ShippingDetailsSchema = new Schema({
 
 
 const orderSchema = new Schema({
-    uid : {
+    userId : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
