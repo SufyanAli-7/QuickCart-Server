@@ -6,7 +6,7 @@ export const addItemsToCart = async (req, res) => {
         const { id } = req;
         const { productId, quantity } = req.body;
 
-        if (!productId || !quantity || quantity < 1) {
+        if (!productId || !quantity || quantity < 1 || typeof quantity !== "number") {
             return res.status(400).json({ success: false, message: "Please provide a valid productId and quantity (at least 1)" });
         }
 
