@@ -9,7 +9,7 @@ export function getPasswordResetOtpHtml(fullName, otp) {
           
           <h1 style="color: black; text-align: center; margin: 0 0 30px 0; font-size: 30px; font-weight: 700; font-family: 'Arial', sans-serif;">Password Reset Request</h1>
           
-          <p style="font-family: 'Arial', sans-serif; color: #333, font-weight: bold;">Dear ${fullName},</p>
+          <p style="font-family: 'Arial', sans-serif; color: #333, font-weight: bold;">Dear<strong>&nbsp;${fullName}&nbsp;</strong>,</p>
           
           <p style="font-family: 'Arial', sans-serif; color: #333;">We received a request to reset the password for your account. To proceed, please use the One-Time Password (OTP) provided below:</p>
           
