@@ -31,7 +31,7 @@ export const createProduct = async (req, res) => {
         }
 
         const product = await Product.create({
-            uid: id,
+            userId: id,
             name,
             description,
             price,

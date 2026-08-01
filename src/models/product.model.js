@@ -36,7 +36,7 @@ const ProductSchema = new Schema({
     },
     category : {
         type: String,
-        enum: ["Electronics","Fashion","Home & Kitchen","Beauty","Sports","Books", "Toys","Groceries", "Health","Automotive","Accessories","Furniture","Stationery","Other"],
+        enum: ["Electronics","Fashion","Home & Kitchen","Beauty","Sports","Books", "Toys","Groceries", "Health","Automotive","Accessories","Furniture","Stationery"],
         required: true,
     },
     status : {
