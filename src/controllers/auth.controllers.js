@@ -7,9 +7,9 @@ import { sendEmail } from "../services/email.service.js";
 
 export const register = async (req, res) => {
     try {
-        const { userName, email, password, role } = req.body;
+        const { fullName, email, password, role } = req.body;
 
-        if (!userName || !email || !password) {
+        if (!fullName || !email || !password) {
             return res.status(400).json({success: false,  message: 'All fields are required' });
         }   
         
@@ -18,17 +18,10 @@ export const register = async (req, res) => {
             return res.status(400).json({success: false, message: 'User already exists' });
         }
 
-        const lowerCaseUserName = userName.toLowerCase();
-
-        const userNameCheck = await User.findOne({ userName: lowerCaseUserName });
-        if (userNameCheck) {
-            return res.status(400).json({success: false, message: 'Username already exists' });
-        }
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
-            userName,
+            fullName,
             email,
             password: hashedPassword,
             role: role || 'customer'

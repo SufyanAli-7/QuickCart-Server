@@ -9,12 +9,16 @@ import orderRouter from './routes/order.routes.js';
 import cartRouter from './routes/cart.routes.js';
 import wishlistRouter from './routes/wishlist.routes.js';
 import adminRouter from './routes/admin.routes.js';
+import config from './config/config.js';
 
 
 const app = express();
 
 
-app.use(cors());
+app.use(cors({
+    origin: config.FRONTEND_URL,
+    credentials: true
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
