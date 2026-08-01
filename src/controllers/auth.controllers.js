@@ -126,7 +126,7 @@ export const sendResetOtp = async (req, res) => {
             user.email,
             'Password Reset OTP',
             '',
-            getPasswordResetOtpHtml(user.email, otp)
+            getPasswordResetOtpHtml(user.fullName, otp)
         );
 
         res.status(200).json({success: true, message: 'OTP sent successfully'});
