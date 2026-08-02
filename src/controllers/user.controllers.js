@@ -1,4 +1,7 @@
 import User from "../models/user.model.js";
+import Order from "../models/order.model.js";
+import Wishlist from "../models/wishlist.models.js";
+import Cart from "../models/cart.model.js";
 
 export const getCurrentUser = async (req, res) => {
     try {
@@ -18,6 +21,44 @@ export const getCurrentUser = async (req, res) => {
     }
 }
 
+// Get Customer Dashboard Statistics (Total Orders, Total Spent, Wishlist Items, Cart Items)
+export const getCustomerDashboardStats = async (req, res) => {
+    try {
+        const userId = req.id;
+
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
+
+        // Count total orders placed by customer
+        const totalOrders = await Order.countDocuments({ userId });
+
+        // Calculate total spent (excluding cancelled orders)
+        const activeOrders = await Order.find({ userId, status: { $ne: 'Cancelled' } });
+        const totalSpent = activeOrders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+        // Count items in wishlist
+        const wishlist = await Wishlist.findOne({ user: userId });
+        const wishlistItems = wishlist ? wishlist.products.length : 0;
+
+        // Count items in cart
+        const cart = await Cart.findOne({ userId });
+        const cartItems = cart ? cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+
+        return res.status(200).json({
+            success: true,
+            stats: {
+                totalOrders,
+                totalSpent,
+                wishlistItems,
+                cartItems
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching customer dashboard stats:", error);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
 
 export const getAllUsers = async (req, res) => {
     try {

@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { deleteUser, getAllUsers, getCurrentUser, getUserById, updateUserRole } from "../controllers/user.controllers.js";
+import { deleteUser, getAllUsers, getCurrentUser, getUserById, getCustomerDashboardStats, updateUserRole } from "../controllers/user.controllers.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 
 // All Users Can Access
 userRouter.get('/current', authMiddleware, getCurrentUser);
+
+// Customer Specific Routes
+userRouter.get('/dashboard-stats', authMiddleware, getCustomerDashboardStats);
 
 // Admin Only
 userRouter.get('/all', authMiddleware, getAllUsers);
