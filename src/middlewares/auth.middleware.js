@@ -22,12 +22,27 @@ import config from '../config/config.js';
 
         next();
 
-    }
-        catch (error) {
-        res.status(500).json({message: error.message});
+} catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const optionalAuthMiddleware = (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+
+    if (token) {
+      const decoded = jwt.verify(token, config.JWT_SECRET);
+      if (decoded.id) {
+        req.id = decoded.id;
+        req.role = decoded.role;
+      }
     }
 
-}    
-
+    next();
+  } catch (error) {
+    next();
+  }
+};
 
 export default authMiddleware;

@@ -53,12 +53,7 @@ export const createProduct = async (req, res) => {
 
 export const allProducts = async (req, res) => {
     try {
-
-        const {id, role } = req;
-
-        if(!id || !role){
-            return res.status(403).json({message: "You are not authorized to fetch products"});
-        }
+        const { role } = req;
         
         let products = [];
 
@@ -79,12 +74,7 @@ export const allProducts = async (req, res) => {
 
 export const getSingleProduct = async(req, res) => {
     try {
-        const { id, role } = req;
-
-        if (!id || !role) {
-            return res.status(403).json({ success: false, message: "You are not authorized to fetch the product" });
-        }
-
+        const { role } = req;
         const productId = req.params.id;
 
         const query = { _id: productId };

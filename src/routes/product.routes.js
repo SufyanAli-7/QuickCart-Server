@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import authMiddleware from '../middlewares/auth.middleware.js';
+import authMiddleware, { optionalAuthMiddleware } from '../middlewares/auth.middleware.js';
 import { createProduct, allProducts , getSingleProduct , deleteProduct , updateProduct} from '../controllers/product.controllers.js';
 import { upload } from '../middlewares/multer.middleware.js';
 const productRouter = Router();
 
 
-// Admin & User Both
-productRouter.get('/all', authMiddleware, allProducts);
+// Admin & User & Guests
+productRouter.get('/all', optionalAuthMiddleware, allProducts);
 
-productRouter.get('/get-single/:id', authMiddleware, getSingleProduct);
+productRouter.get('/get-single/:id', optionalAuthMiddleware, getSingleProduct);
 
 
 
