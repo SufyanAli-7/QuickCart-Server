@@ -63,9 +63,9 @@ export const allProducts = async (req, res) => {
         let products = [];
 
         if(role === "admin"){
-            products = await Product.find();
+            products = await Product.find().sort({createdAt: -1});
         }else{
-            products = await Product.find({status: "active"});
+            products = await Product.find({status: "active"}).sort({createdAt: -1});
         }
         
         return res.status(200).json({success: true, message: "Products fetched successfully", products});
