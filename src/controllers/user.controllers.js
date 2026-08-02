@@ -27,7 +27,7 @@ export const getAllUsers = async (req, res) => {
             return res.status(403).json({success: false, message: 'Forbidden'});
         }
 
-        const users = await User.find({}).select("-password");
+        const users = await User.find({}).select("-password").sort({createdAt: -1});
 
         return res.status(200).json({success: true, users});
     }
