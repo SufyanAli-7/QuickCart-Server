@@ -33,7 +33,7 @@ export const getDashboardStats = async (req, res) => {
             Order.find()
                 .sort({ createdAt: -1 })
                 .limit(5)
-                .populate("userId", "userName email"),
+                .populate("userId", "fullName email"),
             User.find()
                 .select("-password")
                 .sort({ createdAt: -1 })

@@ -120,7 +120,7 @@ const seedProducts = async () => {
         if (!adminUser) {
             console.log("No user found in DB. Creating a default Admin user for products...");
             adminUser = await User.create({
-                userName: "admin_seed",
+                fullName: "admin_seed",
                 email: "admin_seed@example.com",
                 password: "$2a$10$dummyhashedpasswordforseedonly",
                 role: "admin"

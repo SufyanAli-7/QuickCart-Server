@@ -142,7 +142,7 @@ export const getAllOrders = async (req, res) => {
         }
 
         const orders = await Order.find()
-            .populate("userId", "userName email role")
+            .populate("userId", "fullName email role")
             .sort({ createdAt: -1 });
 
         return res.status(200).json({
@@ -169,7 +169,7 @@ export const getOrderById = async (req, res) => {
 
         const orderId = req.params.id;
 
-        const order = await Order.findById(orderId).populate("userId", "userName email role");
+        const order = await Order.findById(orderId).populate("userId", "fullName email role");
 
         if (!order) {
             return res.status(404).json({ success: false, message: "Order not found" });
