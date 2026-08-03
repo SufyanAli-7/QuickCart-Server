@@ -1,17 +1,21 @@
 # ⚙️ QuickCart - E-Commerce API Server
 
-QuickCart Backend is a robust, scalable RESTful API built with **Node.js**, **Express.js**, and **MongoDB (Mongoose)**. It provides authentication, product management with Cloudinary image uploads, cart operations, wishlist management, order processing, and administrative dashboard metrics.
+QuickCart Backend is a robust, scalable RESTful API built with **Node.js**, **Express.js v5**, and **MongoDB (Mongoose v9)**. It provides authentication, product management with Cloudinary image uploads, cart operations, wishlist management, order processing, and administrative dashboard metrics.
 
 ---
 
-## 🚀 Technologies Used
+## 🚀 Technologies & Version Specifications
 
-- **Runtime**: [Node.js](https://nodejs.org/) (ES Modules)
-- **Framework**: [Express.js](https://expressjs.com/)
-- **Database**: [MongoDB](https://www.mongodb.com/) via [Mongoose ORM](https://mongoosejs.com/)
-- **Authentication**: [JSON Web Token (JWT)](https://jwt.io/) stored in HTTP-Only Cookies
-- **Security & Utilities**: `bcryptjs`, `cookie-parser`, `cors`, `dotenv`
-- **File Uploads**: `multer` + [Cloudinary SDK](https://cloudinary.com/)
+- **Runtime**: [Node.js](https://nodejs.org/) (ES Modules `type: "module"`)
+- **Server Framework**: [Express v5.2.1](https://expressjs.com/)
+- **Database & ORM**: [MongoDB](https://www.mongodb.com/) via [Mongoose v9.8.1](https://mongoosejs.com/)
+- **Authentication**: [JSON Web Token (jsonwebtoken v9.0.3)](https://jwt.io/) stored in HTTP-Only Cookies
+- **Password Hashing**: [bcryptjs v3.0.3](https://github.com/dcodeIO/bcrypt.js)
+- **Cookie Handler**: `cookie-parser` v1.4.7
+- **CORS & Logger**: `cors` v2.8.6, `morgan` v1.11.0
+- **Environment Config**: `dotenv` v17.4.2
+- **File Uploads**: `multer` v2.2.0 + [Cloudinary SDK v2.10.0](https://cloudinary.com/)
+- **Dev Server**: `nodemon` v3.1.14
 
 ---
 
@@ -133,11 +137,13 @@ QuickCart Backend is a robust, scalable RESTful API built with **Node.js**, **Ex
 Server/
 ├── src/
 │   ├── config/               # Database connection & env config
-│   ├── controllers/          # Business logic controllers (auth, product, cart, wishlist, order, user)
+│   ├── controllers/          # Business logic controllers (auth, product, cart, wishlist, order, user, admin)
 │   ├── middlewares/          # Express middlewares (auth, multer)
 │   ├── models/               # Mongoose Database Schemas (User, Product, Cart, Wishlist, Order)
 │   ├── routes/               # API route definitions
-│   └── index.js              # Express app initialization & server entry point
+│   └── app.js                # Express app initialization
+├── server.js                 # Server entry point
+├── vercel.json               # Serverless function deployment rules for Vercel
 ├── .env
 ├── package.json
 └── README.md
