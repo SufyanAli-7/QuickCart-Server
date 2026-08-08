@@ -50,6 +50,9 @@ if (!process.env.FAILURE_URL) {
 if (!process.env.SUCCESS_URL) {
     throw new Error("SUCCESS_URL is not defined in the environment variables");
 }
+if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY is not defined in the environment variables");
+}
 
 const config = {
     PORT: process.env.PORT || 3000,
@@ -68,6 +71,7 @@ const config = {
     GOOGLE_CALLBACK: process.env.GOOGLE_CALLBACK,
     FAILURE_URL: process.env.FAILURE_URL,
     SUCCESS_URL: process.env.SUCCESS_URL,
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
 };
 
 export default config;
