@@ -10,6 +10,8 @@ import cartRouter from './routes/cart.routes.js';
 import wishlistRouter from './routes/wishlist.routes.js';
 import adminRouter from './routes/admin.routes.js';
 import config from './config/config.js';
+import passport from 'passport';
+import strategy from './utils/googleStrategy.js';
 
 
 const app = express();
@@ -29,6 +31,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send('Welcome to the E-commerce platform.');
 });
+
+app.use(passport.initialize());
+strategy(app);
 
 // API Routes
 app.use('/api/auth', authRouter);

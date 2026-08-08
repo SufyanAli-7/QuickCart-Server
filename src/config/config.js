@@ -35,6 +35,22 @@ if (!process.env.SMTP_PASS) {
 if (!process.env.SENDER_EMAIL) {
     throw new Error("SENDER_EMAIL is not defined in the environment variables");
 }
+if (!process.env.GOOGLE_CLIENT_ID) {
+    throw new Error("GOOGLE_CLIENT_ID is not defined in the environment variables");
+}
+if (!process.env.GOOGLE_CLIENT_SECRET) {
+    throw new Error("GOOGLE_CLIENT_SECRET is not defined in the environment variables");
+}
+if (!process.env.GOOGLE_CALLBACK) {
+    throw new Error("GOOGLE_CALLBACK is not defined in the environment variables");
+}
+if (!process.env.FAILURE_URL) {
+    throw new Error("FAILURE_URL is not defined in the environment variables");
+}
+if (!process.env.SUCCESS_URL) {
+    throw new Error("SUCCESS_URL is not defined in the environment variables");
+}
+
 const config = {
     PORT: process.env.PORT || 3000,
     MONGO_URI: process.env.MONGO_URI,
@@ -46,7 +62,12 @@ const config = {
     FRONTEND_URL: process.env.FRONTEND_URL,
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
-    SENDER_EMAIL: process.env.SENDER_EMAIL
+    SENDER_EMAIL: process.env.SENDER_EMAIL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    GOOGLE_CALLBACK: process.env.GOOGLE_CALLBACK,
+    FAILURE_URL: process.env.FAILURE_URL,
+    SUCCESS_URL: process.env.SUCCESS_URL,
 };
 
 export default config;
