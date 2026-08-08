@@ -17,10 +17,8 @@ const googleAuthMiddleware = async (req, res, next) => {
 
     const token = jwt.sign(
       {
-        user: {
-          id: user._id,
-          role: user.role,
-        },
+        id: user._id,
+        role: user.role,
       },
       config.JWT_SECRET,
       { expiresIn: "7d" }
