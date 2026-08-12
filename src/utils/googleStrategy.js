@@ -19,7 +19,7 @@ const strategy = (app) => {
   );
 
   app.get(
-    "/auth/google",
+    "/api/auth/google",
     passport.authenticate("google", {
       scope: ["email", "profile"],
       prompt: "select_account",
