@@ -31,7 +31,7 @@ const googleAuthMiddleware = async (req, res, next) => {
         process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    console.log("working middleware", token, req.user);
+
     next();
   } catch (error) {
     next(error);
