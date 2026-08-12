@@ -27,7 +27,7 @@ const strategy = (app) => {
   );
 
   app.get(
-    "/auth/google/callback",
+    "/api/auth/google/callback",
     passport.authenticate("google", {
       failureRedirect: config.FAILURE_URL,
       session: false,
