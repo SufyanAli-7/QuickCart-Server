@@ -34,7 +34,9 @@ const strategy = (app) => {
     }),
     googleAuth,
     async (req, res, next) => {
-      res.redirect(config.SUCCESS_URL);
+      // Pass token via URL query param so client can set a same-origin cookie
+      const redirectUrl = `${config.SUCCESS_URL}?token=${req.token}`;
+      res.redirect(redirectUrl);
     }
   );
 };

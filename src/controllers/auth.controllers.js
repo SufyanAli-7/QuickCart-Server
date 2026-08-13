@@ -171,3 +171,30 @@ export const resetPassword = async (req, res) => {
         res.status(500).json({success: false, message: error.message});
     }
 }
+
+// Set token as httpOnly cookie (used by client after Google OAuth redirect)
+export const setToken = async (req, res) => {
+    try {
+        const { token } = req.body;
+
+        if (!token) {
+            return res.status(400).json({ success: false, message: 'Token is required' });
+        }
+
+        // Verify the token is valid before setting it as a cookie
+        jwt.verify(token, config.JWT_SECRET);
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+
+        return res.status(200).json({ success: true, message: 'Token set successfully' });
+
+    } catch (error) {
+        console.error('Error setting token:', error.message);
+        return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+}
